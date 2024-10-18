@@ -1,7 +1,6 @@
 import React from 'react'
 
-function List({ employees, handleEdit, handleDelete }) {
-
+function List({ employees, handleEdit, handleDelete, handlePayroll }) {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -10,6 +9,7 @@ function List({ employees, handleEdit, handleDelete }) {
 
     return (
         <div className='contain-table'>
+            <button onClick={handlePayroll} className='payroll-button'>Process Payroll</button>
             <table className='striped-table'>
                 <thead>
                     <tr>
@@ -19,9 +19,7 @@ function List({ employees, handleEdit, handleDelete }) {
                         <th>Email</th>
                         <th>Salary</th>
                         <th>Date</th>
-                        <th colSpan={2} className="text-center">
-                            Actions
-                        </th>
+                        <th colSpan={2} className="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,20 +33,10 @@ function List({ employees, handleEdit, handleDelete }) {
                                 <td>{formatter.format(employee.salary)}</td>
                                 <td>{employee.date} </td>
                                 <td className="text-right">
-                                    <button
-                                        onClick={() => handleEdit(employee.id)}
-                                        className="button muted-button"
-                                    >
-                                        Edit
-                                    </button>
+                                    <button onClick={() => handleEdit(employee.id)} className="button muted-button">Edit</button>
                                 </td>
                                 <td className="text-left">
-                                    <button
-                                        onClick={() => handleDelete(employee.id)}
-                                        className="button muted-button"
-                                    >
-                                        Delete
-                                    </button>
+                                    <button onClick={() => handleDelete(employee.id)} className="button muted-button">Delete</button>
                                 </td>
                             </tr>
                         ))
@@ -63,4 +51,4 @@ function List({ employees, handleEdit, handleDelete }) {
     )
 }
 
-export default List
+export default List;

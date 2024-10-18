@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Swal from 'sweetalert2';
 
 function Edit({ employees, selectedEmployee, setEmployees, setIsEditing }) {
-
     const id = selectedEmployee.id;
 
     const [firstName, setFirstName] = useState(selectedEmployee.firstName);
@@ -10,6 +9,12 @@ function Edit({ employees, selectedEmployee, setEmployees, setIsEditing }) {
     const [email, setEmail] = useState(selectedEmployee.email);
     const [salary, setSalary] = useState(selectedEmployee.salary);
     const [date, setDate] = useState(selectedEmployee.date);
+
+    // New fields for payroll processing
+    const [hourlyRate, setHourlyRate] = useState(selectedEmployee.hourlyRate);
+    const [fixedSalary, setFixedSalary] = useState(selectedEmployee.fixedSalary);
+    const [commission, setCommission] = useState(selectedEmployee.commission);
+    const [taxRate, setTaxRate] = useState(selectedEmployee.taxRate);
 
     const handleUpdate = e => {
         e.preventDefault();
@@ -29,6 +34,10 @@ function Edit({ employees, selectedEmployee, setEmployees, setIsEditing }) {
             lastName,
             email,
             salary,
+            hourlyRate,
+            fixedSalary,
+            commission,
+            taxRate,
             date
         };
 
@@ -56,58 +65,33 @@ function Edit({ employees, selectedEmployee, setEmployees, setIsEditing }) {
             <form onSubmit={handleUpdate}>
                 <h1>Edit Employee</h1>
                 <label htmlFor="firstName">First Name</label>
-                <input
-                    id="firstName"
-                    type="text"
-                    name="firstName"
-                    value={firstName}
-                    onChange={e => setFirstName(e.target.value)}
-                />
+                <input id="firstName" type="text" name="firstName" value={firstName} onChange={e => setFirstName(e.target.value)} />
                 <label htmlFor="lastName">Last Name</label>
-                <input
-                    id="lastName"
-                    type="text"
-                    name="lastName"
-                    value={lastName}
-                    onChange={e => setLastName(e.target.value)}
-                />
+                <input id="lastName" type="text" name="lastName" value={lastName} onChange={e => setLastName(e.target.value)} />
                 <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                />
+                <input id="email" type="email" name="email" value={email} onChange={e => setEmail(e.target.value)} />
                 <label htmlFor="salary">Salary ($)</label>
-                <input
-                    id="salary"
-                    type="number"
-                    name="salary"
-                    value={salary}
-                    onChange={e => setSalary(e.target.value)}
-                />
+                <input id="salary" type="number" name="salary" value={salary} onChange={e => setSalary(e.target.value)} />
                 <label htmlFor="date">Date</label>
-                <input
-                    id="date"
-                    type="date"
-                    name="date"
-                    value={date}
-                    onChange={e => setDate(e.target.value)}
-                />
+                <input id="date" type="date" name="date" value={date} onChange={e => setDate(e.target.value)} />
+
+                {/* New fields for Payroll */}
+                <label htmlFor="hourlyRate">Hourly Rate</label>
+                <input id="hourlyRate" type="number" name="hourlyRate" value={hourlyRate} onChange={e => setHourlyRate(e.target.value)} />
+                <label htmlFor="fixedSalary">Fixed Salary</label>
+                <input id="fixedSalary" type="number" name="fixedSalary" value={fixedSalary} onChange={e => setFixedSalary(e.target.value)} />
+                <label htmlFor="commission">Commission</label>
+                <input id="commission" type="number" name="commission" value={commission} onChange={e => setCommission(e.target.value)} />
+                <label htmlFor="taxRate">Tax Rate (%)</label>
+                <input id="taxRate" type="number" name="taxRate" value={taxRate} onChange={e => setTaxRate(e.target.value)} />
+
                 <div style={{ marginTop: '30px' }}>
                     <input type="submit" value="Update" />
-                    <input
-                        style={{ marginLeft: '12px' }}
-                        className="muted-button"
-                        type="button"
-                        value="Cancel"
-                        onClick={() => setIsEditing(false)}
-                    />
+                    <input style={{ marginLeft: '12px' }} className="muted-button" type="button" value="Cancel" onClick={() => setIsEditing(false)} />
                 </div>
             </form>
         </div>
     );
 }
 
-export default Edit
+export default Edit;

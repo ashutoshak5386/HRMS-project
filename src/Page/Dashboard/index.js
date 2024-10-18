@@ -6,10 +6,9 @@ import List from './List';
 import Add from './Add';
 import Edit from './Edit';
 
-import { employeesData } from '../../data';
+import { employeesData } from '../../data'; // Assuming this is the data source
 
-function Dashboard() {
-
+function Index() {
     const [employees, setEmployees] = useState(employeesData);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
@@ -17,7 +16,6 @@ function Dashboard() {
 
     const handleEdit = (id) => {
         const [employee] = employees.filter(employee => employee.id === id);
-
         setSelectedEmployee(employee);
         setIsEditing(true);
     }
@@ -33,7 +31,6 @@ function Dashboard() {
         }).then(result => {
             if (result.value) {
                 const [employee] = employees.filter(employee => employee.id === id);
-
                 Swal.fire({
                     icon: 'success',
                     title: 'Deleted!',
@@ -41,29 +38,59 @@ function Dashboard() {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-
                 setEmployees(employees.filter(employee => employee.id !== id));
             }
         });
     }
 
+    // Function to calculate salary for payroll processing
+    const calculateSalary = (employee) => {
+        let grossSalary = 0;
+
+        if (employee.hourlyRate) {
+            const hoursWorked = 160; // Assuming full-time work of 160 hours per month
+            grossSalary = employee.hourlyRate * hoursWorked;
+        } else if (employee.fixedSalary) {
+            grossSalary = employee.fixedSalary;
+        }
+
+        if (employee.commission) {
+            grossSalary += employee.commission;
+        }
+
+        const tax = grossSalary * (employee.taxRate / 100);
+        const netSalary = grossSalary - tax;
+
+        return { grossSalary, tax, netSalary };
+    }
+
+    // Function to process payroll for all employees
+    const handlePayroll = () => {
+        employees.forEach(employee => {
+            const { grossSalary, tax, netSalary } = calculateSalary(employee);
+
+            console.log(`Payslip for ${employee.firstName} ${employee.lastName}:`);
+            console.log(`Gross Salary: $${grossSalary}`);
+            console.log(`Tax Deducted: $${tax}`);
+            console.log(`Net Salary: $${netSalary}`);
+
+            // You could use something like jsPDF here to generate payslips if needed
+        });
+    };
 
     return (
         <div className='container'>
-            {/* List */}
             {!isAdding && !isEditing && (
                 <>
-                    <Header
-                        setIsAdding={setIsAdding}
-                    />
+                    <Header setIsAdding={setIsAdding} />
                     <List
                         employees={employees}
                         handleEdit={handleEdit}
                         handleDelete={handleDelete}
+                        handlePayroll={handlePayroll} // Passing payroll function to List component
                     />
                 </>
             )}
-            {/* Add */}
             {isAdding && (
                 <Add
                     employees={employees}
@@ -71,7 +98,6 @@ function Dashboard() {
                     setIsAdding={setIsAdding}
                 />
             )}
-            {/* Edit */}
             {isEditing && (
                 <Edit
                     employees={employees}
@@ -84,4 +110,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard;
+export default Index;

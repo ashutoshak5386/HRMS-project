@@ -2,12 +2,17 @@ import React, { useState, useRef, useEffect } from 'react'
 import Swal from 'sweetalert2';
 
 function Add({ employees, setEmployees, setIsAdding }) {
-
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [salary, setSalary] = useState('');
     const [date, setDate] = useState('');
+
+    // New fields for payroll processing
+    const [hourlyRate, setHourlyRate] = useState('');
+    const [fixedSalary, setFixedSalary] = useState('');
+    const [commission, setCommission] = useState('');
+    const [taxRate, setTaxRate] = useState('');
 
     const textInput = useRef(null);
 
@@ -33,8 +38,13 @@ function Add({ employees, setEmployees, setIsAdding }) {
             lastName,
             email,
             salary,
+            hourlyRate,
+            fixedSalary,
+            commission,
+            taxRate,
             date
         }
+
         employees.push(newEmployee);
         setEmployees(employees);
         setIsAdding(false);
@@ -42,71 +52,44 @@ function Add({ employees, setEmployees, setIsAdding }) {
         Swal.fire({
             icon: 'success',
             title: 'Added!',
-            text: `${firstName} ${lastName}'s data has been Added.`,
+            text: `${firstName} ${lastName}'s data has been added.`,
             showConfirmButton: false,
             timer: 1500
         });
     }
-
 
     return (
         <div className="small-container">
             <form onSubmit={handleAdd}>
                 <h1>Add Employee</h1>
                 <label htmlFor="firstName">First Name</label>
-                <input
-                    id="firstName"
-                    type="text"
-                    ref={textInput}
-                    name="firstName"
-                    value={firstName}
-                    onChange={e => setFirstName(e.target.value)}
-                />
+                <input id="firstName" type="text" ref={textInput} name="firstName" value={firstName} onChange={e => setFirstName(e.target.value)} />
                 <label htmlFor="lastName">Last Name</label>
-                <input
-                    id="lastName"
-                    type="text"
-                    name="lastName"
-                    value={lastName}
-                    onChange={e => setLastName(e.target.value)}
-                />
+                <input id="lastName" type="text" name="lastName" value={lastName} onChange={e => setLastName(e.target.value)} />
                 <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                />
+                <input id="email" type="email" name="email" value={email} onChange={e => setEmail(e.target.value)} />
                 <label htmlFor="salary">Salary ($)</label>
-                <input
-                    id="salary"
-                    type="number"
-                    name="salary"
-                    value={salary}
-                    onChange={e => setSalary(e.target.value)}
-                />
+                <input id="salary" type="number" name="salary" value={salary} onChange={e => setSalary(e.target.value)} />
                 <label htmlFor="date">Date</label>
-                <input
-                    id="date"
-                    type="date"
-                    name="date"
-                    value={date}
-                    onChange={e => setDate(e.target.value)}
-                />
+                <input id="date" type="date" name="date" value={date} onChange={e => setDate(e.target.value)} />
+
+                {/* New fields for Payroll */}
+                <label htmlFor="hourlyRate">Hourly Rate</label>
+                <input id="hourlyRate" type="number" name="hourlyRate" value={hourlyRate} onChange={e => setHourlyRate(e.target.value)} />
+                <label htmlFor="fixedSalary">Fixed Salary</label>
+                <input id="fixedSalary" type="number" name="fixedSalary" value={fixedSalary} onChange={e => setFixedSalary(e.target.value)} />
+                <label htmlFor="commission">Commission</label>
+                <input id="commission" type="number" name="commission" value={commission} onChange={e => setCommission(e.target.value)} />
+                <label htmlFor="taxRate">Tax Rate (%)</label>
+                <input id="taxRate" type="number" name="taxRate" value={taxRate} onChange={e => setTaxRate(e.target.value)} />
+
                 <div style={{ marginTop: '30px' }}>
                     <input type="submit" value="Add" />
-                    <input
-                        style={{ marginLeft: '12px' }}
-                        className="muted-button"
-                        type="button"
-                        value="Cancel"
-                        onClick={() => setIsAdding(false)}
-                    />
+                    <input style={{ marginLeft: '12px' }} className="muted-button" type="button" value="Cancel" onClick={() => setIsAdding(false)} />
                 </div>
             </form>
         </div>
     );
 }
 
-export default Add
+export default Add;
