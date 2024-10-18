@@ -9,7 +9,13 @@ function List({ employees, handleEdit, handleDelete, handlePayroll }) {
 
     return (
         <div className='contain-table'>
-            <button onClick={handlePayroll} className='payroll-button'>Process Payroll</button>
+            <button onClick={() => {
+                console.log("Payroll button clicked");  // Debugging
+                handlePayroll();
+            }} className='payroll-button'>
+                Process Payroll
+            </button>
+
             <table className='striped-table'>
                 <thead>
                     <tr>
